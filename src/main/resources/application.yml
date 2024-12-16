@@ -9,4 +9,10 @@ quarkus:
     sql-load-script: import.sql
     database:
       generation: drop-and-create
+  log:
+    category:
+      "org.hibernate.SQL":
+        level: DEBUG
+      "org.hibernate.type.descriptor.sql.BasicBinder":
+        level: DEBUG
   profile: dev

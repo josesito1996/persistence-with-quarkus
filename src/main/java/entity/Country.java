@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @ToString
 public class Country extends PanacheEntity {
+
     public String name;
     public String code;
     public String continent;

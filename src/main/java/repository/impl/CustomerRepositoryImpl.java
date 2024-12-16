@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import repository.CustomerRepository;
 import repository.PaginatedResponse;
+import util.Utils;
 
 import java.util.List;
 
@@ -28,10 +29,10 @@ public class CustomerRepositoryImpl implements CustomerRepository, PanacheReposi
         Sort sort = sortField.equalsIgnoreCase(DESCENDING) ?
                 Sort.by(DISTRICT_COLUMN).descending() :
                 Sort.by(DISTRICT_COLUMN).ascending();
-        var query = findAll(sort);
-        long totalRecords = query.count();
-        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
-        List<Customer> customers = query.page(pageIndex - 1, pageSize).list();
+        long totalRecords = count();
+        int totalPages = Utils.getTotalPages(totalRecords, pageSize);
+        List<Customer> customers = findAll(sort)
+                .page(pageIndex - 1, pageSize).list();
         return new PaginatedResponse<>(customers, totalRecords, totalPages, customers.size());
     }
 
